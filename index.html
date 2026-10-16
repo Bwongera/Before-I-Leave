@@ -1,0 +1,583 @@
+
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Murabeho, Mukobwa Mwiza ❤️</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background: #09090f;
+  color: white;
+  font-family: Georgia, "Times New Roman", serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #f6cbd6;
+  font-family: Arial, sans-serif;
+  font-size: 19px;
+}
+
+#video {
+  width: min(100%, 360px);
+  aspect-ratio: 9 / 16;
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  background:
+    radial-gradient(ellipse at 50% 70%,
+      #763b50 0%, #291b32 35%, #090910 80%);
+  box-shadow: 0 0 35px #a13c6340;
+}
+
+#stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(white 1px, transparent 1.5px),
+    radial-gradient(#ffc6d9 1px, transparent 1.5px);
+  background-size: 53px 67px, 89px 103px;
+  background-position: 0 0, 30px 20px;
+  opacity: 0.45;
+  animation: stars 18s linear infinite;
+}
+
+.sun {
+  position: absolute;
+  top: 19%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
+  background: linear-gradient(#ffcfaa, #bd6681);
+  box-shadow: 0 0 65px #ff8ca555;
+  opacity: 0.65;
+}
+
+.horizon {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 33%;
+  background: linear-gradient(
+    160deg,
+    transparent 15%,
+    #16111e 16%,
+    #08080d 80%
+  );
+  clip-path: polygon(0 25%, 30% 5%, 62% 27%,
+                     100% 0, 100% 100%, 0 100%);
+}
+
+#scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 30px 23px;
+  z-index: 2;
+}
+
+#number {
+  color: #f2b8cb;
+  font: 12px Arial, sans-serif;
+  letter-spacing: 4px;
+  margin-bottom: 25px;
+}
+
+#message {
+  font-size: 19px;
+  line-height: 1.8;
+  color: #fff7f8;
+  text-shadow: 0 2px 12px #000;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+  white-space: pre-line;
+}
+
+#message.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#heart {
+  margin-top: 25px;
+  font-size: 30px;
+  animation: heartbeat 1.6s infinite;
+}
+
+#signature {
+  position: absolute;
+  bottom: 20px;
+  left: 10px;
+  right: 10px;
+  text-align: center;
+  font: 10px Arial, sans-serif;
+  letter-spacing: 3px;
+  color: #f3c3d2;
+  z-index: 3;
+}
+
+.controls {
+  width: min(100%, 360px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+button {
+  border: 1px solid #c77a98;
+  background: #281622;
+  color: white;
+  padding: 12px 15px;
+  border-radius: 9px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #6d304b;
+}
+
+#status {
+  color: #c9b8c3;
+  font: 12px Arial, sans-serif;
+  margin-top: 12px;
+  text-align: center;
+  line-height: 1.7;
+}
+
+@keyframes stars {
+  from { background-position: 0 0, 30px 20px; }
+  to { background-position: 0 200px, 30px 220px; }
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+</style>
+</head>
+
+<body>
+
+<h2>Urwandiko rutavuzwe ❤️</h2>
+
+<div id="video">
+  <div id="stars"></div>
+  <div class="sun"></div>
+  <div class="horizon"></div>
+
+  <div id="scene">
+    <div id="number">URUKUNDO</div>
+    <div id="message" class="show">
+      Hari amagambo umutima
+      utigeze ubona umwanya
+      wo kuvuga...
+    </div>
+    <div id="heart">♡</div>
+  </div>
+
+  <div id="signature">KUVA KU MUTIMA ❤️❤️</div>
+</div>
+
+<div class="controls">
+  <button id="play">▶</button>
+  <button id="pause">Ⅱ</button>
+  <button id="continue">▶</button>
+  <button id="restart">↻</button>
+</div>
+
+<div class="controls">
+  <button id="record">🎬 Record and Save Video</button>
+</div>
+
+<div id="status">Kanda Play kugira ngo utangize video.</div>
+
+<script>
+const scenes = [
+  {
+    title: "UKURI KWO KU MUTIMA",
+    text: `Hari ikintu nifuzaga
+kukubwira kuva kera,
+ariko sinigeze mbona
+umwanya mwiza wo kukikubwira.`
+  },
+  {
+    title: "UKURI KWO KU MUTIMA",
+    text: `Ubu rero, mbere y’uko ngenda,
+numvise ntashobora kuva aha
+ntakubwiye ibiri
+ku mutima wanjye.`
+  },
+  {
+    title: "UKURI KWO KU MUTIMA ❤️",
+    text: `Mu by’ukuri,
+naragukunze.
+Nakunze uko nkubona,
+nkifuza ko umunsi umwe
+twazabona umwanya wo kuganira,
+tukamenyana kurushaho.`
+  },
+  {
+    title: "UKURI KWO KU MUTIMA",
+    text: `Wenda tukazagira
+inkuru nziza duhuriyeho...
+Ariko ntibyagenze
+uko nabyifuzaga.`
+  },
+  {
+    title: "SINASHATSE KUGUHATIRA",
+    text: `Sinagombaga kuguhatira
+ikintu umutima wawe
+utifuzaga cg ngo utekerezeho,
+.`
+  },
+  {
+    title: "SINASHATSE KUGUHATIRA",
+    text: `Ubu ngiye kujya kure y’aha(i mahanga),
+gutangira ubuzima bushya.
+Ariko hari ikintu nifuzaga
+ko umenya mbere y’uko ngenda...`
+  },
+  {
+    title: "UFITE UMWANYA MU MUTIMA WANJYE",
+    text: `Hari umuntu wagukunze
+by’ukuri...
+Nubwo atigeze abona
+amahirwe yo kukubwira neza
+uko yiyumva.`
+  },
+  {
+    title: "SINSHOBORA KUGUSABA IKINTU",
+    text: `Sinkubwiye ibi kugira ngo
+wumve ko hari icyo unyishyura.
+Nashakaga gusa kugusezeraho,
+nkubwiye ukuri kwari
+mu mutima wanjye,
+.`
+  },
+  {
+    title: "NZAHORA NISHIMIRA",
+    text: `Sinzi niba uzigera umenya
+neza uko nagukunze...
+Ariko nzahora nishimira
+ko wigeze kuba umuntu
+umutima wanjye wahisemo gukunda.`
+  },
+  {
+    title: "NKWIFURIJE IBYIZA",
+    text: `Nubwo tutabashije kubona
+umwanya uhagije wo kumenyana,
+ndakwifuriza ibyiza byose
+mu buzima bwawe.
+Amahoro mu mutima
+n’ibyishimo.`
+  },
+  {
+    title: "NIBA UZANYIBUKA...",
+    text: `Niba hari igihe uzanyibuka,
+uzibuke ko hari umuntu
+wigeze kukwifuriza ibyiza
+abikuye ku mutima.`
+  },
+  {
+    title: "MURABEHO, MUKOBWA MWIZA ❤️",
+    text: `Ndagenda mfite ibyiringiro
+by’ubuzima bushya...
+
+Ariko sinahisha ukuri
+kw’amarangamutima
+nagize kuri wowe.
+
+Nkwifurije ibyiza
+aho ubuzima buzakujyana hose.`
+  }
+];
+
+const message = document.getElementById("message");
+const number = document.getElementById("number");
+const heart = document.getElementById("heart");
+const status = document.getElementById("status");
+const video = document.getElementById("video");
+
+let current = 0;
+let timer = null;
+let playing = false;
+let generation = 0;
+let remaining = 6500;
+let sceneStartedAt = 0;
+
+function showScene(index) {
+  current = index;
+
+  message.classList.remove("show");
+
+  setTimeout(() => {
+    if (!playing) return;
+
+    number.textContent =
+      `${String(index + 1).padStart(2, "0")} / ${scenes.length}`
+      + "  •  " + scenes[index].title;
+
+    message.textContent = scenes[index].text;
+    message.style.fontSize =
+      scenes[index].text.length > 145 ? "16px" :
+      scenes[index].text.length > 105 ? "17px" : "19px";
+
+    heart.textContent = index === scenes.length - 1 ? "❤️" : "♡";
+    message.classList.add("show");
+  }, 500);
+}
+
+function stopPlayback() {
+  playing = false;
+  clearTimeout(timer);
+  timer = null;
+}
+
+function playVideo() {
+  stopPlayback();
+  generation++;
+  current = 0;
+  remaining = 6500;
+  startCurrentScene();
+}
+
+function startCurrentScene() {
+  playing = true;
+  const myGeneration = generation;
+
+  showScene(current);
+  sceneStartedAt = Date.now();
+
+  status.textContent =
+    "Video iri gukina... Buri gice kimara amasegonda 6.5.";
+
+  timer = setTimeout(() => {
+    if (!playing || myGeneration !== generation) return;
+
+    if (current < scenes.length - 1) {
+      current++;
+      remaining = 6500;
+      startCurrentScene();
+    } else {
+      playing = false;
+      timer = null;
+      status.textContent =
+        "Video irangiye ❤️ Ushobora kongera kuyireba.";
+    }
+  }, remaining);
+}
+
+function pauseVideo() {
+  if (!playing) return;
+
+  remaining = Math.max(0, remaining - (Date.now() - sceneStartedAt));
+  stopPlayback();
+  generation++;
+
+  status.textContent =
+    "Video ihagaritswe. Kanda Continue kugira ngo ukomeze.";
+}
+
+function continueVideo() {
+  if (playing) return;
+
+  if (remaining <= 0) {
+    if (current < scenes.length - 1) {
+      current++;
+      remaining = 6500;
+    } else {
+      status.textContent =
+        "Video yarangiye. Kanda Play cyangwa Ongera utangire.";
+      return;
+    }
+  }
+
+  generation++;
+  startCurrentScene();
+}
+
+document.getElementById("play").onclick = playVideo;
+document.getElementById("pause").onclick = pauseVideo;
+document.getElementById("continue").onclick = continueVideo;
+document.getElementById("restart").onclick = playVideo;
+
+document.getElementById("record").onclick = async () => {
+  if (!("MediaRecorder" in window) ||
+      !HTMLCanvasElement.prototype.captureStream) {
+    status.textContent =
+      "Browser yawe ntishyigikira gufata video muri ubu buryo. " +
+      "Koresha screen recording ya telefone.";
+    return;
+  }
+
+  const canvas = document.createElement("canvas");
+  canvas.width = 720;
+  canvas.height = 1280;
+
+  const ctx = canvas.getContext("2d");
+  const stream = canvas.captureStream(30);
+
+  let recorder;
+
+  try {
+    recorder = new MediaRecorder(stream, {
+      mimeType: MediaRecorder.isTypeSupported("video/webm;codecs=vp9")
+        ? "video/webm;codecs=vp9"
+        : "video/webm"
+    });
+  } catch {
+    status.textContent =
+      "Browser ntiyemeye gukora video. Gerageza Chrome igezweho.";
+    stream.getTracks().forEach(track => track.stop());
+    return;
+  }
+
+  const chunks = [];
+
+  recorder.ondataavailable = event => {
+    if (event.data.size > 0) chunks.push(event.data);
+  };
+
+  recorder.onstop = () => {
+    const blob = new Blob(chunks, { type: "video/webm" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "murabeho-mukobwa-mwiza.webm";
+    link.click();
+
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+    stream.getTracks().forEach(track => track.stop());
+
+    status.textContent =
+      "Video yarakozwe. Reba muri Downloads ya telefone yawe.";
+  };
+
+  status.textContent = "Video iri gukorwa. Tegereza gato...";
+
+  recorder.start();
+
+  const startTime = performance.now();
+  const duration = scenes.length * 6500;
+
+  function drawFrame(now) {
+    const elapsed = now - startTime;
+    const index = Math.min(
+      scenes.length - 1,
+      Math.floor(elapsed / 6500)
+    );
+
+    const scene = scenes[index];
+
+    const gradient = ctx.createLinearGradient(0, 0, 720, 1280);
+    gradient.addColorStop(0, "#090910");
+    gradient.addColorStop(0.5, "#49263f");
+    gradient.addColorStop(1, "#100d1b");
+
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 720, 1280);
+
+    const sunGlow = ctx.createRadialGradient(360, 340, 10, 360, 340, 280);
+    sunGlow.addColorStop(0, "#e9a18b");
+    sunGlow.addColorStop(0.35, "#a95778");
+    sunGlow.addColorStop(1, "transparent");
+
+    ctx.fillStyle = sunGlow;
+    ctx.fillRect(0, 0, 720, 700);
+
+    for (let i = 0; i < 65; i++) {
+      const x = (i * 137 + 43) % 720;
+      const y = (i * 211 + 70) % 1280;
+
+      ctx.globalAlpha = 0.3 + 0.5 * Math.abs(Math.sin(now / 1000 + i));
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath();
+      ctx.arc(x, y, i % 3 === 0 ? 2 : 1, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    ctx.globalAlpha = 1;
+
+    ctx.fillStyle = "#0b0a12";
+    ctx.beginPath();
+    ctx.moveTo(0, 850);
+    ctx.lineTo(190, 710);
+    ctx.lineTo(400, 860);
+    ctx.lineTo(720, 690);
+    ctx.lineTo(720, 1280);
+    ctx.lineTo(0, 1280);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = "#f2b8cb";
+    ctx.font = "22px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText(
+      String(index + 1).padStart(2, "0") + " / " + scenes.length,
+      360, 350
+    );
+
+    ctx.font = "18px Arial";
+    ctx.fillText(scene.title, 360, 400);
+
+    const lines = scene.text.split("\n");
+    const fontSize = scene.text.length > 145 ? 27 : 31;
+    const lineHeight = fontSize * 1.65;
+    const startY = 640 - ((lines.length - 1) * lineHeight) / 2;
+
+    ctx.font = `${fontSize}px Georgia`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.shadowColor = "#000000";
+    ctx.shadowBlur = 12;
+    ctx.fillStyle = "#fff5f8";
+
+    lines.forEach((line, i) => {
+      ctx.fillText(line.trim(), 360, startY + i * lineHeight, 640);
+    });
+
+    ctx.shadowBlur = 0;
+
+    ctx.fillStyle = "#f3c3d2";
+    ctx.font = "20px Arial";
+    ctx.fillText("KUVA KU MUTIMA  ❤️", 360, 1190);
+
+    if (elapsed < duration) {
+      requestAnimationFrame(drawFrame);
+    } else {
+      recorder.stop();
+    }
+  }
+
+  requestAnimationFrame(drawFrame);
+};
+</script>
+
+</body>
+</html>
